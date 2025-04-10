@@ -2,10 +2,10 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
 import plantRoutes from './routes/plantRoutes';
 import userRoutes from './routes/userRoutes';
 import adminRoutes from './routes/adminRoutes';
-import path from 'path';
 
 dotenv.config();
 
@@ -40,14 +40,16 @@ app.get('/test-cors', (req, res) => {
   res.json({ message: 'CORS is working!' });
 });
 
-app.get('/', (req, res) => {
-  res.send('Welcome to the Greenhouse App!');
+app.get('/health', (req, res) => {
+  res.send('Server is up and running');
 });
 
-// Serve Angular static files last
-app.use(express.static(path.join(__dirname, 'dist/client')));
+// Serve Angular static files
+const clientPath = path.join(__dirname, '../client');
+app.use(express.static(clientPath));
+
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/client/index.html'));
+  res.sendFile(path.join(clientPath, 'index.html'));
 });
 
 mongoose
