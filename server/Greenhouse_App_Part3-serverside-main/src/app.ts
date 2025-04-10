@@ -46,7 +46,7 @@ app.get('/health', (req, res) => {
   res.send('Server is up and running');
 });
 
-// Root path handler - this should fix the 502 errors
+// Root path handler
 app.get('/', (req, res) => {
   res.status(200).send(`
     <html>
@@ -76,7 +76,6 @@ app.get('/', (req, res) => {
   `);
 });
 
-// Simple API endpoint
 app.get('/api', (req, res) => {
   res.json({
     status: 'ok',
@@ -86,14 +85,13 @@ app.get('/api', (req, res) => {
   });
 });
 
-// Debug static file paths
 app.get('/debug-paths', (req, res) => {
-  const clientPath = path.join(__dirname, '../dist/client');
+  const clientPath = path.join(__dirname, '../dist/client/browser');
   const indexPath = path.join(clientPath, 'index.html');
-  
+
   const clientExists = fs.existsSync(clientPath);
   const indexExists = fs.existsSync(indexPath);
-  
+
   res.json({
     currentDir: __dirname,
     clientPath,
@@ -104,20 +102,17 @@ app.get('/debug-paths', (req, res) => {
   });
 });
 
-// Serve Angular static files - this should come after the specific routes
-const clientPath = path.join(__dirname, '../dist/client');
+// Serve Angular static files
+const clientPath = path.join(__dirname, '../dist/client/browser');
 console.log('Looking for client files at:', clientPath);
 app.use(express.static(clientPath));
 
-// This catch-all route should come last
 app.get('*', (req, res) => {
-  // Try to serve Angular app, but fall back to the API notice if files don't exist
   const indexPath = path.join(clientPath, 'index.html');
   console.log('Trying to serve:', indexPath);
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    // Redirect to root path which now has our API information
     res.redirect('/');
   }
 });
