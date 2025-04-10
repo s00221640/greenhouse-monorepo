@@ -2,6 +2,9 @@
   "name": "greenhouse-monorepo",
   "version": "1.0.0",
   "scripts": {
-    "start": "bash start.sh"
+    "start": "bash start.sh",
+    "install:all": "cd server/Greenhouse_App_Part3-serverside-main && npm install && cd ../../client/Greenhouse_App_Part3-clientside-main/greenhouse-app-part2 && npm install",
+    "build": "cd client/Greenhouse_App_Part3-clientside-main/greenhouse-app-part2 && npx ng build --output-path=../../../server/Greenhouse_App_Part3-serverside-main/dist/client",
+    "serve": "cd server/Greenhouse_App_Part3-serverside-main && node dist/app.js"
   }
 }
