@@ -48,7 +48,7 @@ app.get('/api', (req, res) => {
         server_time: new Date().toISOString()
     });
 });
-// Angular path setup
+// Angular path setup (final fix)
 const clientPath = path_1.default.join(__dirname, 'dist/client/browser');
 console.log('Looking for Angular frontend at:', clientPath);
 // Static files from Angular build
