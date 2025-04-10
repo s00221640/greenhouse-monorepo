@@ -5,16 +5,8 @@ echo "Installing server dependencies..."
 cd server/Greenhouse_App_Part3-serverside-main
 npm install --omit=dev
 
-echo "Installing Angular dependencies..."
-cd ../../client/Greenhouse_App_Part3-clientside-main/greenhouse-app-part2
-npm install --omit=dev
-
-echo "Building Angular app..."
-npx ng build --output-path=../../../server/Greenhouse_App_Part3-serverside-main/dist/client
-
-echo "Building server..."
-cd ../../../server/Greenhouse_App_Part3-serverside-main
+echo "Building TypeScript server..."
 npm run build
 
 echo "Starting server..."
-node dist/app.js
+node dist/src/app.js
