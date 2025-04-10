@@ -51,8 +51,8 @@ app.get('/api', (req, res) => {
   });
 });
 
-// Angular path setup (final fix)
-const clientPath = path.join(__dirname, 'client/browser');
+// Angular path setup (FINAL FIX)
+const clientPath = path.join(__dirname, '../client/browser');
 console.log('Looking for Angular frontend at:', clientPath);
 
 // Static files from Angular build
