@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import plantRoutes from './routes/plantRoutes';
 import userRoutes from './routes/userRoutes';
-import adminRoutes from './routes/adminRoutes'; 
+import adminRoutes from './routes/adminRoutes';
+import path from 'path';
 
 dotenv.config();
 
@@ -12,14 +13,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-
-import path from 'path';
-app.use(express.static(path.join(__dirname, 'dist/client')));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist/client/index.html'));
-});
-
 
 app.use((req, res, next) => {
   console.log(`Incoming Request: ${req.method} ${req.url}`);
@@ -30,7 +23,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   const contentType = req.headers['content-type'] || '';
   if (contentType.includes('multipart/form-data')) {
-    return next(); 
+    return next();
   }
 
   express.json()(req, res, (err) => {
@@ -49,6 +42,12 @@ app.get('/test-cors', (req, res) => {
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Greenhouse App!');
+});
+
+// Serve Angular static files last
+app.use(express.static(path.join(__dirname, 'dist/client')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/client/index.html'));
 });
 
 mongoose
