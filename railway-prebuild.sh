@@ -1,20 +1,19 @@
 #!/bin/bash
 set -e
 
-# Install client dependencies
+echo "Installing server dependencies..."
+cd server/Greenhouse_App_Part3-serverside-main
+npm install --omit=dev
+
 echo "Installing client dependencies..."
-cd client/Greenhouse_App_Part3-clientside-main/greenhouse-app-part2
+cd ../../client/Greenhouse_App_Part3-clientside-main/greenhouse-app-part2
 npm install
 
-# Build Angular with memory optimizations
-echo "Building Angular with memory optimizations..."
-NODE_OPTIONS="--max_old_space_size=512" npx ng build --configuration production --output-path=../../../server/Greenhouse_App_Part3-serverside-main/dist/client
+echo "Building Angular frontend..."
+npx ng build --output-path=../../server/Greenhouse_App_Part3-serverside-main/dist/client/browser
 
-# Ensure the output directory exists
-mkdir -p ../../../server/Greenhouse_App_Part3-serverside-main/dist/client
+echo "Building TypeScript backend..."
+cd ../../server/Greenhouse_App_Part3-serverside-main
+npm run build
 
-# List the files to verify the build worked
-echo "Listing built Angular files:"
-ls -la ../../../server/Greenhouse_App_Part3-serverside-main/dist/client
-
-echo "Angular build completed successfully!"
+echo "Build complete"
