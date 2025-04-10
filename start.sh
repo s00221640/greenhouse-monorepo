@@ -1,8 +1,12 @@
 #!/bin/bash
-cd server/Greenhouse_App_Part3-serverside-main
+set -e
+
+cd server
 npm install
-cd ../../client/Greenhouse_App_Part3-clientside-main/greenhouse-app-part2
+
+cd ../client
 npm install
-npm run build -- --output-path=../../../server/Greenhouse_App_Part3-serverside-main/dist/client
-cd ../../../server/Greenhouse_App_Part3-serverside-main
+npx ng build --output-path=../server/dist/client
+
+cd ../server
 node dist/app.js
