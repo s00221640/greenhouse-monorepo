@@ -6,7 +6,7 @@ buildCommand = "bash railway-prebuild.sh"
 startCommand = "bash railway-start.sh"
 healthcheckPath = "/health"
 healthcheckTimeout = 100
-restartPolicyType = "on-failure"
+restartPolicy = "on-failure"
 
 [nixpacks]
 nodejs-version = "20"
