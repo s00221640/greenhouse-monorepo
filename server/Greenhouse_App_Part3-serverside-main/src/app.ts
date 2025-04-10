@@ -44,6 +44,39 @@ app.get('/health', (req, res) => {
   res.send('Server is up and running');
 });
 
+// Debug static file paths
+app.get('/debug-paths', (req, res) => {
+  const clientPath = path.join(__dirname, '../dist/client');
+  const indexPath = path.join(clientPath, 'index.html');
+  
+  const clientExists = require('fs').existsSync(clientPath);
+  const indexExists = require('fs').existsSync(indexPath);
+  
+  res.json({
+    currentDir: __dirname,
+    clientPath,
+    indexPath,
+    clientExists,
+    indexExists,
+    files: clientExists ? require('fs').readdirSync(clientPath) : []
+  });
+});
+
+// Serve Angular static files
+const clientPath = path.join(__dirname, '../dist/client');
+console.log('Looking for client files at:', clientPath);
+app.use(express.static(clientPath));
+
+app.get('*', (req, res) => {
+  const indexPath = path.join(clientPath, 'index.html');
+  console.log('Trying to serve:', indexPath);
+  if (require('fs').existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).send('index.html not found at ' + indexPath);
+  }
+});
+
 // Serve Angular static files
 const clientPath = path.join(__dirname, '../dist/client');
 app.use(express.static(clientPath));
