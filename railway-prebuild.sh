@@ -6,14 +6,14 @@ cd server/Greenhouse_App_Part3-serverside-main
 npm install --omit=dev
 
 echo "Installing client dependencies..."
-cd ../../client/Greenhouse_App_Part3-clientside-main/greenhouse-app-part2
+cd ../../client/Greenhouse_App_Part3-clientside-main
 npm install
 
 echo "Building Angular frontend..."
-npx ng build --configuration production --output-path=../../../server/Greenhouse_App_Part3-serverside-main/dist/client/browser
+npx ng build --configuration production --output-path=../../server/Greenhouse_App_Part3-serverside-main/dist/client/browser
 
 echo "Building TypeScript backend..."
-cd ../../../server/Greenhouse_App_Part3-serverside-main
+cd ../../server/Greenhouse_App_Part3-serverside-main
 npm run build
 
 echo "✅ Build complete!"
