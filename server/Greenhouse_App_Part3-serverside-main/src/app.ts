@@ -45,7 +45,7 @@ app.get('/health', (req, res) => {
 });
 
 // Serve Angular static files
-const clientPath = path.join(__dirname, '../client');
+const clientPath = path.join(__dirname, '../dist/client');
 app.use(express.static(clientPath));
 
 app.get('*', (req, res) => {
