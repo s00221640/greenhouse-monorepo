@@ -33,6 +33,7 @@ app.use((req, res, next) => {
   });
 });
 
+// API routes
 app.use('/users', userRoutes);
 app.use('/plants', plantRoutes);
 app.use('/admin', adminRoutes);
@@ -43,6 +44,46 @@ app.get('/test-cors', (req, res) => {
 
 app.get('/health', (req, res) => {
   res.send('Server is up and running');
+});
+
+// Root path handler - this should fix the 502 errors
+app.get('/', (req, res) => {
+  res.status(200).send(`
+    <html>
+      <head>
+        <title>Greenhouse API</title>
+        <style>
+          body { font-family: Arial; margin: 40px; line-height: 1.6; }
+          h1 { color: #2e8b57; }
+          .container { max-width: 800px; margin: 0 auto; }
+          code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <h1>Greenhouse API</h1>
+          <p>Your server is running successfully!</p>
+          <p>Available endpoints:</p>
+          <ul>
+            <li><code>/users</code> - User management</li>
+            <li><code>/plants</code> - Plant management</li>
+            <li><code>/admin</code> - Admin functions</li>
+            <li><code>/debug-paths</code> - Debug information</li>
+          </ul>
+        </div>
+      </body>
+    </html>
+  `);
+});
+
+// Simple API endpoint
+app.get('/api', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Greenhouse API is running',
+    endpoints: ['/users', '/plants', '/admin'],
+    server_time: new Date().toISOString()
+  });
 });
 
 // Debug static file paths
@@ -63,18 +104,21 @@ app.get('/debug-paths', (req, res) => {
   });
 });
 
-// Serve Angular static files
+// Serve Angular static files - this should come after the specific routes
 const clientPath = path.join(__dirname, '../dist/client');
 console.log('Looking for client files at:', clientPath);
 app.use(express.static(clientPath));
 
+// This catch-all route should come last
 app.get('*', (req, res) => {
+  // Try to serve Angular app, but fall back to the API notice if files don't exist
   const indexPath = path.join(clientPath, 'index.html');
   console.log('Trying to serve:', indexPath);
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    res.status(404).send('index.html not found at ' + indexPath);
+    // Redirect to root path which now has our API information
+    res.redirect('/');
   }
 });
 
