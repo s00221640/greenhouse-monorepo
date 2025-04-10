@@ -13,6 +13,14 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
+import path from 'path';
+app.use(express.static(path.join(__dirname, 'dist/client')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/client/index.html'));
+});
+
+
 app.use((req, res, next) => {
   console.log(`Incoming Request: ${req.method} ${req.url}`);
   console.log('Headers:', req.headers);
