@@ -1,0 +1,20 @@
+[build]
+builder = "nixpacks"
+buildCommand = "bash railway-prebuild.sh"
+
+[deploy]
+startCommand = "bash railway-start.sh"
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+restartPolicyType = "on-failure"
+
+[nixpacks]
+nodejs-version = "20"
+
+[[phases]]
+name = "build"
+cmds = ["bash railway-prebuild.sh"]
+
+[[phases]]
+name = "setup"
+cmds = ["chmod +x railway-start.sh", "chmod +x railway-prebuild.sh"]

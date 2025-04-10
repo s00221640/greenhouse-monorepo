@@ -1,1 +1,1 @@
-web: npm run install:all && npm run build && npm run serve
+web: bash railway-start.sh
