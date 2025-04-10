@@ -4,7 +4,10 @@
   "scripts": {
     "start": "bash start.sh",
     "install:all": "cd server && npm install && cd ../client && npm install",
-    "build": "npm install -g @angular/cli && cd client/Greenhouse_App_Part3-clientside-main/greenhouse-app-part2 && npm install && ng build --output-path=../../../server/Greenhouse_App_Part3-serverside-main/dist/client && cd ../../../server/Greenhouse_App_Part3-serverside-main && npm install && npm run build",
+    "build": "cd client/Greenhouse_App_Part3-clientside-main/greenhouse-app-part2 && ng build --output-path=../../../server/Greenhouse_App_Part3-serverside-main/dist/client",
     "serve": "cd server/Greenhouse_App_Part3-serverside-main && node dist/app.js"
+  },
+  "devDependencies": {
+    "@angular/cli": "18.2.2"
   }
 }
