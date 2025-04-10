@@ -1,0 +1,10 @@
+{
+  "name": "greenhouse-monorepo",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "bash start.sh",
+    "install:all": "cd server && npm install && cd ../client && npm install",
+    "build": "cd client && ng build --output-path=../server/dist/client",
+    "serve": "cd server && node dist/app.js"
+  }
+}
